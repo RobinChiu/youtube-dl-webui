@@ -1,0 +1,14 @@
+version: '3.1'
+services:
+  api:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    image: youtube-dl-webui
+    volumes:
+      - .:/usr/src/app
+    environment:
+      - MODE=prod
+    command: "python web-ui.py"
+    ports:
+      - 7860:7860
