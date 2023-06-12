@@ -83,6 +83,9 @@ def ffmpeg(options, ffmpeg_file):
     else:
         yield log, None
 
+def fileselect(files, evt:gr.SelectData):
+    print(evt.__dict__)
+    return os.path.join(config.DL_DIR, evt.value)
 
 def main():
     # path = './videos'
@@ -146,11 +149,12 @@ def main():
                 with gr.Row():
                     with gr.Column(scale=2):
                         filelist = getfiles()
-                        files = gr.Files(value=filelist)
+                        files = gr.Files(value=filelist, interactive=True)
                         refrest_btn = gr.Button("Refresh", variant="primary")
+                        play_video = gr.Video(label='select video')
                 refrest_btn.click(fn=getfiles, inputs=[], outputs=[files])
+                files.select(fileselect, files, play_video)
             
-
     demo.queue(concurrency_count=5)
     demo.launch(debug=True, server_name='0.0.0.0')
 
