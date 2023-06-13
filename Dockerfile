@@ -11,18 +11,16 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 RUN python3 -m pip install --upgrade pip
 RUN pip install --no-cache-dir gradio
 
+# install the youtube-dl
+ADD youtube-dl /youtube-dl
+WORKDIR /youtube-dl
+RUN pip install -e .
+
 ARG APP_ROOT=/usr/src/app
 RUN mkdir -p $APP_ROOT
 RUN mkdir -p $APP_ROOT/downloads
 WORKDIR $APP_ROOT
-
-# install the youtube-dl
-ADD youtube-dl $APP_ROOT/youtube-dl
-WORKDIR $APP_ROOT/youtube-dl
-RUN pip install -e .
-
-ADD web-ui.py $APP_ROOT/
-ADD config.py $APP_ROOT/
+COPY app .
 
 WORKDIR $APP_ROOT
 EXPOSE 7860

@@ -6,7 +6,8 @@ services:
       dockerfile: Dockerfile
     image: youtube-dl-webui
     volumes:
-      - .:/usr/src/app
+      - ./app:/usr/src/app
+      - ./downloads:/usr/src/app/downloads
     environment:
       - MODE=prod
     command: "python web-ui.py"
